@@ -9,3 +9,10 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model Servers {
+  id               Int       @id @default(autoincrement())
+  serverName       String    @unique
+  serverAddress    String    @unique
+  lastDisabledTime DateTime?
+}

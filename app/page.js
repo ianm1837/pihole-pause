@@ -67,13 +67,9 @@ export default function Home() {
                                                                 }
                                                             >
                                                                 {editMode ? (
-                                                                    // <SwapIconAnimation>
                                                                     <DoneIcon />
                                                                 ) : (
-                                                                    // </SwapIconAnimation>
-                                                                    // <SwapIconAnimation>
                                                                     <PencilIcon />
-                                                                    // </SwapIconAnimation>
                                                                 )}
                                                             </button>
                                                         </SpinningPencil>

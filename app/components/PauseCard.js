@@ -12,6 +12,9 @@ import TrashcanAnimation from './animations/TrashcanAnimation'
 import ServerList from './ServerList'
 import ServerEditList from './ServerEditList'
 
+import SettingsGear from './SettingsGear'
+import ListAndPause from './ListAndPause'
+
 export default function PauseCard({ serverList }) {
     const [editMode, setEditMode] = useState(false)
     const [paused, setPaused] = useState(false)
@@ -27,9 +30,10 @@ export default function PauseCard({ serverList }) {
     return (
         <div className="container">
             <div className="flex flex-col items-center w-100">
-                <div className="card w-10/12 bg-neutral shadow-xl grow m-8 pb-14">
-                    <div className="card-body items-center w-100">
-                        
+                <div className="card w-10/12 bg-base-100 shadow-xl grow m-8 pb-14">
+                    <div className="card-body w-100">
+                        <SettingsGear/>
+                        <ListAndPause/>
                     </div>
                 </div>
             </div>

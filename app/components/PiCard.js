@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function PiCard() {
   return (
-      <div className="card w-96 bg-neutral shadow-xl p-4 m-3">
+      <div className="card w-96 bg-neutral shadow-xl p-4 mx-auto m-3">
           <div className="flex justify-between">
               <div>
                   <h1>

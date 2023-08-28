@@ -1,17 +1,12 @@
 
 import PauseCard from './components/PauseCard'
 import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
-
-async function saveSettings() {
-    return
-}
-
-const serverList = await prisma.servers.findMany()
+import SettingsCard from './components/SettingsCard'
+import ContainerCard from './components/ContainerCard'
 
 export default function Home() {
     return (
-        <PauseCard serverList={serverList} />
+        <ContainerCard/>
+
     )
 }

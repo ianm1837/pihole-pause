@@ -4,7 +4,6 @@ import { headers } from 'next/headers'
 
 const prisma = new PrismaClient()
 
-
 export async function GET() {
 
   //get all servers

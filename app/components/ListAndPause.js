@@ -1,7 +1,7 @@
 import PiCardList from "./PiCardList"
 import PauseButton from "./PauseButton"
 
-export default function ListAndPause() {
+export default function ListAndPause({ dataUpdated }) {
   return (
     <div className="flex min-h-[18rem]">
       <div className={`w-6/12 m-auto`}>

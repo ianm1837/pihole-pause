@@ -14,5 +14,6 @@ model Servers {
   id               Int       @id @default(autoincrement())
   serverName       String    @unique
   serverAddress    String    @unique
+  serverAPIKey     String?    @unique
   lastDisabledTime DateTime?
 }

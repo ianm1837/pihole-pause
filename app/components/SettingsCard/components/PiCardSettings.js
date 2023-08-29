@@ -1,6 +1,6 @@
-import TrashIcon from "./icons/TrashIcon"
-import UpArrow from "./icons/UpArrow"
-import DownArrow from "./icons/DownArrow"
+import TrashIcon from '../../icons/TrashIcon'
+import UpArrow from '../../icons/UpArrow'
+import DownArrow from '../../icons/DownArrow'
 
 export default function PiCardSettings() {
     return (

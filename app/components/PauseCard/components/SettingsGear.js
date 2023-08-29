@@ -1,5 +1,5 @@
-import GearIcon from '../icons/GearIcon'
-import { useGlobalContext } from '../GlobalContext'
+import GearIcon from '../../icons/GearIcon'
+import { useGlobalContext } from '../../context/GlobalContext'
 
 export default function SettingsGear({ action }) {
     const { openSettingsPage } = useGlobalContext()

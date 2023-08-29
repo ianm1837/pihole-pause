@@ -1,5 +1,5 @@
 import PiCard from './PiCard'
-import { useGlobalContext } from './GlobalContext'
+import { useGlobalContext } from '../../context/GlobalContext'
 
 export default function PiCardList() {
     const { serverData } = useGlobalContext()

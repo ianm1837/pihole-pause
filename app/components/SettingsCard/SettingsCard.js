@@ -1,6 +1,6 @@
-import PiCardSettingsList from './PiCardSettingsList'
-import SaveButton from './buttons/SaveButton'
-import { useGlobalContext } from './GlobalContext'
+import PiCardSettingsList from './components/PiCardSettingsList'
+import SaveButton from './components/SaveButton'
+import { useGlobalContext } from '../context/GlobalContext'
 
 export default function SettingsCard() {
     const { saveSettings } = useGlobalContext()

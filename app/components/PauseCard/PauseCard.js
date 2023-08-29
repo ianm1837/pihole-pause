@@ -1,8 +1,7 @@
 'use client'
 import React from 'react'
-import SettingsGear from './buttons/SettingsGear'
-import ListAndPause from './ListAndPause'
-import CardFooter from './CardFooter'
+import SettingsGear from './components/SettingsGear'
+import ListAndPause from './components/ListAndPause'
 
 export default function PauseCard() {
     return (
@@ -11,7 +10,7 @@ export default function PauseCard() {
                 <div className="card-body w-100">
                     <SettingsGear />
                     <ListAndPause />
-                    <CardFooter />
+                    <div className="h-12 w-100"></div>
                 </div>
             </div>
         </div>

@@ -10,7 +10,7 @@ export default function PiCardList() {
                 serverData.map((pi) => {
                     return (
                         <PiCard
-                            key={pi.serverName}
+                            key={pi.id}
                             name={pi.serverName}
                             ip={pi.serverAddress}
                             status={pi.status}

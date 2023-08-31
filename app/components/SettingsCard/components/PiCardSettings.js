@@ -10,9 +10,10 @@ export default function PiCardSettings({
     serverAddress,
     serverAPIKey,
     handleInputChange,
+    isFirst,
+    isLast,
 }) {
-
-    const { moveUp, moveDown, removeCard } = useGlobalContext()
+    const { moveCardUp, moveCardDown, removeCard } = useGlobalContext()
 
     return (
         <div className="flex items-center bg-neutral rounded-xl p-3 m-3 ">
@@ -58,13 +59,28 @@ export default function PiCardSettings({
                     )
                 }
             />
-            <button className="btn btn-outline btn-primary m-1" onClick={() => {moveUp(id)}}>
+            <button
+                className="btn btn-outline btn-primary m-1"
+                onClick={() => {
+                    moveCardUp(id)
+                }}
+                disabled={isFirst ? true : false}
+            >
                 <UpArrow />
             </button>
-            <button className="btn btn-outline btn-primary m-1">
+            <button
+                className="btn btn-outline btn-primary m-1"
+                onClick={() => {
+                    moveCardDown(id)
+                }}
+                disabled={isLast ? true : false}
+            >
                 <DownArrow />
             </button>
-            <button className="btn btn-outline btn-error m-1" onClick={() => removeCard(id)}>
+            <button
+                className="btn btn-outline btn-error m-1"
+                onClick={() => removeCard(id)}
+            >
                 <TrashIcon />
             </button>
         </div>

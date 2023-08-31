@@ -16,8 +16,16 @@ export default function GlobalProvider({ children }) {
     // modified data on settings card
     const [modifiedServerData, setModifiedServerData] = useState(serverData)
 
+    function openSettingsPage() {
+        setSettingsPage(true)
+    }
+
+    function closeSettingsPage() {
+        setSettingsPage(false)
+    }
+
     // move a card up in the list
-    function moveUp(id) {
+    function moveCardUp(id) {
         const itemToMove = modifiedServerData.find((item) => item.id === id)
 
         const filteredArray = modifiedServerData.filter(
@@ -38,8 +46,42 @@ export default function GlobalProvider({ children }) {
     }
 
     // move a card down in the list
+    function moveCardDown(id) {
+        const itemToMove = modifiedServerData.find((item) => item.id === id)
+
+        const filteredArray = modifiedServerData.filter(
+            (item) => item.id !== id
+        )
+
+        const newArray = [
+            ...filteredArray.slice(0, id),
+            itemToMove,
+            ...filteredArray.slice(id),
+        ]
+
+        newArray.forEach((item, index) => {
+            item.id = index + 1
+        })
+
+        setModifiedServerData(newArray)
+    }
 
     // add a card to the list
+    function addCard() {
+        const lastCard = modifiedServerData[modifiedServerData.length - 1]
+        const lastCardId = lastCard.id
+
+        const newCard = {
+            id: lastCardId + 1,
+            serverName: '',
+            serverAddress: '',
+            serverAPIKey: '',
+        }
+
+        const newArray = [...modifiedServerData, newCard]
+
+        setModifiedServerData(newArray)
+    }
 
     // remove a card from the list
     function removeCard(id) {
@@ -59,10 +101,12 @@ export default function GlobalProvider({ children }) {
 
     // save data to server and refresh local data
     async function saveSettings(serverData) {
-        console.log('serverData: ', serverData)
+        // delete all data from server
         await fetch(serverURL, {
             method: 'DELETE',
         })
+
+        // add new data to server
         await fetch(serverURL, {
             method: 'POST',
             headers: {
@@ -70,16 +114,10 @@ export default function GlobalProvider({ children }) {
             },
             body: JSON.stringify(serverData),
         })
-        setSettingsPage(false)
+
+        // close settings page and refresh data
+        closeSettingsPage()
         getSettings()
-    }
-
-    function openSettingsPage() {
-        setSettingsPage(true)
-    }
-
-    function closeSettingsPage() {
-        setSettingsPage(false)
     }
 
     // get data on page load
@@ -90,19 +128,20 @@ export default function GlobalProvider({ children }) {
         getData()
     }, [])
 
-    // get data
-
-    // set data
-
-    // refresh data on page
-    //   only when data is updated
-
+    // create new array to modify
     useEffect(() => {
         console.log('serverData: ', serverData)
+
+        if (!serverData) return
+
+        serverData.map((item, index) => {
+            item.id = index + 1
+        })
+
         setModifiedServerData(serverData)
     }, [serverData])
 
-    // list of items to be made available to context
+    // list of items to export to global context
     const value = {
         getSettings,
         saveSettings,
@@ -110,10 +149,11 @@ export default function GlobalProvider({ children }) {
         openSettingsPage,
         paused,
         setPaused,
-        serverData,
         modifiedServerData,
         setModifiedServerData,
-        moveUp,
+        addCard,
+        moveCardUp,
+        moveCardDown,
         removeCard,
     }
 

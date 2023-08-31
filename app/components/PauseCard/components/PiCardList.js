@@ -2,12 +2,12 @@ import PiCard from './PiCard'
 import { useGlobalContext } from '../../context/GlobalContext'
 
 export default function PiCardList() {
-    const { serverData } = useGlobalContext()
+    const { modifiedServerData } = useGlobalContext()
 
     return (
         <div className="flex-col m-auto">
-            {serverData ? (
-                serverData.map((pi) => {
+            {modifiedServerData ? (
+                modifiedServerData.map((pi) => {
                     return (
                         <PiCard
                             key={pi.id}

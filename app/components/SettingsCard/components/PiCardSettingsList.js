@@ -5,13 +5,11 @@ import { useState, useEffect } from 'react'
 import { useGlobalContext } from '../../context/GlobalContext'
 
 export default function PiCardSettingsList() {
-    const { serverData, modifiedServerData, setModifiedServerData } = useGlobalContext()
-
-
-
+    const { serverData, modifiedServerData, setModifiedServerData, addCard } =
+        useGlobalContext()
 
     useEffect(() => {
-                console.log(modifiedServerData)
+        console.log(modifiedServerData)
     }, [modifiedServerData])
 
     async function handleInputChange(id, newName, newAddress, newAPIKey) {
@@ -31,11 +29,13 @@ export default function PiCardSettingsList() {
 
     return (
         <div className="flex-col m-auto min-h-[18rem]">
-            {modifiedServerData.map((item) => {
+            {modifiedServerData.map((item, index) => {
                 return (
                     <PiCardSettings
                         key={item.id}
                         id={item.id}
+                        isFirst={index === 0}
+                        isLast={index === modifiedServerData.length - 1}
                         serverName={item.serverName}
                         serverAddress={item.serverAddress}
                         serverAPIKey={item.serverAPIKey}
@@ -45,7 +45,7 @@ export default function PiCardSettingsList() {
             })}
 
             <div className="w-100 flex align-middle">
-                <PlusButton className="m-auto" />
+                <PlusButton className="m-auto"/>
             </div>
         </div>
     )

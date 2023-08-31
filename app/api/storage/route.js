@@ -10,8 +10,6 @@ export async function GET() {
     //get all servers
     const allServers = await prisma.servers.findMany()
 
-    console.log("allServers: " + util.inspect(allServers, { depth: null, colors: true }))
-
     return NextResponse.json(allServers)
 }
 
@@ -19,17 +17,10 @@ export async function POST(request) {
     //for adding new data
     const requestJSON = await request.json()
 
-    console.log("--------------------")
-
     requestJSON.forEach(async (server) => {
         const { serverName, serverAddress, serverAPIKey, lastDisabledTime } = server
 
         try {
-            console.log('serverName: ', serverName)
-            console.log('serverAddress: ', serverAddress)
-            console.log('serverAPIKey: ', serverAPIKey)
-            console.log('lastDisabledTime: ', lastDisabledTime)
-
             const createdObject = await prisma.servers.create({
                 data: {
                     serverName: serverName,

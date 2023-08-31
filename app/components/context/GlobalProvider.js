@@ -95,7 +95,6 @@ export default function GlobalProvider({ children }) {
             method: 'GET',
         })
         const JSONdata = await data.json()
-        console.log('JSONdata: ', JSONdata)
         setServerData(JSONdata)
     }
 
@@ -130,7 +129,6 @@ export default function GlobalProvider({ children }) {
 
     // create new array to modify
     useEffect(() => {
-        console.log('serverData: ', serverData)
 
         if (!serverData) return
 

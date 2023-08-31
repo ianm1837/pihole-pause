@@ -5,12 +5,8 @@ import { useState, useEffect } from 'react'
 import { useGlobalContext } from '../../context/GlobalContext'
 
 export default function PiCardSettingsList() {
-    const { serverData, modifiedServerData, setModifiedServerData, addCard } =
+    const { modifiedServerData, setModifiedServerData } =
         useGlobalContext()
-
-    useEffect(() => {
-        console.log(modifiedServerData)
-    }, [modifiedServerData])
 
     async function handleInputChange(id, newName, newAddress, newAPIKey) {
         const newServerData = modifiedServerData.map((item) => {

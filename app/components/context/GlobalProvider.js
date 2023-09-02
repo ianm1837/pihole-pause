@@ -21,7 +21,13 @@ export default function GlobalProvider({ children }) {
     const [lastDisabledTime, setLastDisabledTime] = useState(0)
 
     function resumeCountdown() {
-        if(modifiedServerData[0].lastDisabledTime){
+        if(!modifiedServerData || modifiedServerData.length === 0){
+            return
+        }
+
+        console.log(modifiedServerData)
+        
+        if(modifiedServerData && modifiedServerData[0].lastDisabledTime){
             const serverTimes = parseInt(modifiedServerData[0].lastDisabledTime)
             const currentTime = Date.now()
 
@@ -71,6 +77,13 @@ export default function GlobalProvider({ children }) {
         })
         setPaused(false)
         setPauseTimeout(0)
+
+        const removeDisabledTime = modifiedServerData.map((item) => {
+            item.lastDisabledTime = "0"
+            return item
+        })
+
+        saveSettings(removeDisabledTime)
     }
 
     function openSettingsPage() {

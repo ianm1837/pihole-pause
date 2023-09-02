@@ -7,6 +7,7 @@ import React from 'react'
 import SettingsGear from './PauseCard/components/SettingsGear'
 import ListAndPause from './PauseCard/components/ListAndPause'
 import CountdownTimer from './PauseCard/components/CountdownTimer'
+import TimePicker from './PauseCard/components/TimePicker'
 
 export default function ContainerCard() {
     const { settingsPage, pauseTimeout } = useGlobalContext()
@@ -24,22 +25,15 @@ export default function ContainerCard() {
                 ) : (
                     <>
                         <ListAndPause />
+                        <div className="w-100 flex justify-center m-3">
+                            {pauseTimeout ? (
+                                <CountdownTimer duration={pauseTimeout} />
+                            ) : (
+                                <TimePicker />
+                            )}
+                        </div>
                     </>
                 )}
-                {/* {!settingsPage && (
-                    <div className="h-12 w-100"></div>
-                )} */}
-                {
-                    pauseTimeout? (
-                        <div className='w-100 flex justify-center m-3'>
-                            <CountdownTimer duration={pauseTimeout} />
-                        </div>
-                    )
-                    :
-                    (
-                        ''
-                    )
-                }
             </div>
         </div>
     )

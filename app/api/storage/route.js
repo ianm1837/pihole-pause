@@ -18,7 +18,8 @@ export async function POST(request) {
     const requestJSON = await request.json()
 
     requestJSON.forEach(async (server) => {
-        const { serverName, serverAddress, serverAPIKey, lastDisabledTime } = server
+        const { serverName, serverAddress, serverAPIKey, lastDisabledTime } =
+            server
 
         try {
             const createdObject = await prisma.servers.create({
@@ -31,6 +32,7 @@ export async function POST(request) {
             })
             return NextResponse.json(createdObject)
         } catch (error) {
+            console.log('Write Error!')
 
             //find type of error
             console.log('Error Type: ', error.constructor.name)

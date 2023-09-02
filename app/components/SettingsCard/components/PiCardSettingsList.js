@@ -3,6 +3,7 @@ import PiCardSettings from './PiCardSettings'
 import PlusButton from './PlusButton'
 import { useState, useEffect } from 'react'
 import { useGlobalContext } from '../../context/GlobalContext'
+import CloseButton from './CloseButton'
 
 export default function PiCardSettingsList() {
     const { modifiedServerData, setModifiedServerData } =
@@ -24,7 +25,9 @@ export default function PiCardSettingsList() {
     }
 
     return (
-        <div className="flex-col m-auto min-h-[18rem]">
+        <div className="flex-col m-auto min-h-[18rem] max-w-sm xl:max-w-full ">
+            <CloseButton />
+
             {modifiedServerData.map((item, index) => {
                 return (
                     <PiCardSettings
@@ -41,7 +44,7 @@ export default function PiCardSettingsList() {
             })}
 
             <div className="w-100 flex align-middle">
-                <PlusButton className="m-auto"/>
+                <PlusButton className="m-auto" />
             </div>
         </div>
     )

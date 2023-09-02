@@ -4,7 +4,7 @@ export default function SaveButton() {
 
     return (
         <button
-            className="btn btn-outline btn-success m-auto"
+            className="btn btn-outline btn-success mx-auto my-3"
             onClick={() => saveSettings(modifiedServerData)}
         >
             Save Settings

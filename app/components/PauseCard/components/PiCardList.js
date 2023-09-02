@@ -5,7 +5,7 @@ export default function PiCardList() {
     const { modifiedServerData } = useGlobalContext()
 
     return (
-        <div className="flex-col m-auto">
+        <div className="flex-col m-auto w-full">
             {modifiedServerData ? (
                 modifiedServerData.map((pi) => {
                     return (

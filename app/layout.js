@@ -11,13 +11,12 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
     return (
-        <html lang="en" data-theme="night" className='bg-base-200'>
+        <html lang="en" data-theme="night" className="bg-base-200">
             <body className={inter.className}>
-              <div className={`p-5`}>
-                <Header />
-                {children}
-
-              </div>
+                <div className="container">
+                    <Header />
+                    {children}
+                </div>
             </body>
         </html>
     )

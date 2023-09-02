@@ -11,9 +11,9 @@ datasource db {
 }
 
 model Servers {
-  id               Int       @id @default(autoincrement())
+  id               Int     @id @default(autoincrement())
   serverName       String
   serverAddress    String
   serverAPIKey     String?
-  lastDisabledTime DateTime?
+  lastDisabledTime String?
 }

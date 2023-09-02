@@ -16,6 +16,63 @@ export default function GlobalProvider({ children }) {
     // modified data on settings card
     const [modifiedServerData, setModifiedServerData] = useState(serverData)
 
+    const [pauseTimeout, setPauseTimeout] = useState(0)
+
+    const [lastDisabledTime, setLastDisabledTime] = useState(0)
+
+    function resumeCountdown() {
+        if(modifiedServerData[0].lastDisabledTime){
+            const serverTimes = parseInt(modifiedServerData[0].lastDisabledTime)
+            const currentTime = Date.now()
+
+            if (currentTime > serverTimes){
+                return
+            }
+
+            const remainingSeconds = (serverTimes - currentTime) / 1000
+
+            console.log("remaining seconds: " + remainingSeconds)
+
+            setPauseTimeout(remainingSeconds - 2)
+        }
+    }
+
+    async function pauseIt(minutes = 5) {
+        const addresses = modifiedServerData.map((item) => item.serverAddress)
+
+        addresses.forEach(async (address) => {
+            await fetch(`http://${address}/admin/api.php?disable=300&auth`)
+        })
+
+        const duration = minutes * 60
+
+        const newTime = Date.now() + duration * 1000
+        const newTimeToString = newTime.toString()
+
+        setLastDisabledTime(newTimeToString)
+
+        const withLastDisabledTime = modifiedServerData.map((item) => {
+            item.lastDisabledTime = newTimeToString
+            return item
+        })
+
+        setModifiedServerData(withLastDisabledTime)
+        saveSettings(withLastDisabledTime)
+        setPaused(true)
+    }
+
+    async function restartIt() {
+        const addresses = modifiedServerData.map((item) => item.serverAddress)
+
+        console.log(addresses)
+
+        addresses.forEach(async (address) => {
+            await fetch(`http://${address}/admin/api.php?enable&auth`)
+        })
+        setPaused(false)
+        setPauseTimeout(0)
+    }
+
     function openSettingsPage() {
         setSettingsPage(true)
     }
@@ -68,17 +125,30 @@ export default function GlobalProvider({ children }) {
 
     // add a card to the list
     function addCard() {
-        const lastCard = modifiedServerData[modifiedServerData.length - 1]
-        const lastCardId = lastCard.id
+        let newArray = []
 
-        const newCard = {
-            id: lastCardId + 1,
-            serverName: '',
-            serverAddress: '',
-            serverAPIKey: '',
+        if (modifiedServerData.length !== 0) {
+            const lastCard = modifiedServerData[modifiedServerData.length - 1]
+            const lastCardId = lastCard.id
+
+            const newCard = {
+                id: lastCardId + 1,
+                serverName: '',
+                serverAddress: '',
+                serverAPIKey: '',
+            }
+            newArray = [...modifiedServerData, newCard]
         }
 
-        const newArray = [...modifiedServerData, newCard]
+        if (modifiedServerData.length === 0) {
+            const newCard = {
+                id: 1,
+                serverName: '',
+                serverAddress: '',
+                serverAPIKey: '',
+            }
+            newArray = [newCard]
+        }
 
         setModifiedServerData(newArray)
     }
@@ -99,7 +169,7 @@ export default function GlobalProvider({ children }) {
     }
 
     // save data to server and refresh local data
-    async function saveSettings(serverData) {
+    async function saveSettings(newData) {
         // delete all data from server
         await fetch(serverURL, {
             method: 'DELETE',
@@ -111,7 +181,7 @@ export default function GlobalProvider({ children }) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(serverData),
+            body: JSON.stringify(newData),
         })
 
         // close settings page and refresh data
@@ -129,15 +199,32 @@ export default function GlobalProvider({ children }) {
 
     // create new array to modify
     useEffect(() => {
-
         if (!serverData) return
 
+        console.log('serverData: ' + JSON.stringify(serverData))
+
         serverData.map((item, index) => {
+            item.serverId = item.id
             item.id = index + 1
+            lastDisabledTime && setLastDisabledTime(item.lastDisabledTime)
         })
 
         setModifiedServerData(serverData)
     }, [serverData])
+
+    useEffect(() => {
+        if (lastDisabledTime === 0) return
+
+        console.log('lastDisabledTime: ' + lastDisabledTime)
+    }, [lastDisabledTime])
+
+    useEffect(() => {
+        console.log('modifiedServerData: ' + JSON.stringify(modifiedServerData))
+
+        if (modifiedServerData) {
+            resumeCountdown()
+        }
+    }, [modifiedServerData])
 
     // list of items to export to global context
     const value = {
@@ -145,8 +232,13 @@ export default function GlobalProvider({ children }) {
         saveSettings,
         settingsPage,
         openSettingsPage,
+        closeSettingsPage,
+        pauseIt,
+        restartIt,
         paused,
         setPaused,
+        pauseTimeout,
+        setPauseTimeout,
         modifiedServerData,
         setModifiedServerData,
         addCard,

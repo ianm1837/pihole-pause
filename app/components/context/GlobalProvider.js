@@ -27,8 +27,6 @@ export default function GlobalProvider({ children }) {
             return
         }
 
-        console.log(modifiedServerData)
-
         if (modifiedServerData && modifiedServerData[0].lastDisabledTime) {
             const serverTimes = parseInt(modifiedServerData[0].lastDisabledTime)
             const currentTime = Date.now()
@@ -38,8 +36,6 @@ export default function GlobalProvider({ children }) {
             }
 
             const remainingSeconds = (serverTimes - currentTime) / 1000
-
-            console.log('remaining seconds: ' + remainingSeconds)
 
             setPauseTimeout(remainingSeconds - 2)
         }
@@ -82,8 +78,6 @@ export default function GlobalProvider({ children }) {
     async function restartIt() {
         const addresses = modifiedServerData.map((item) => item.serverAddress)
 
-        console.log(addresses)
-
         addresses.forEach(async (address) => {
             await fetch(`http://${address}/admin/api.php?enable&auth`)
         })
@@ -103,6 +97,7 @@ export default function GlobalProvider({ children }) {
     }
 
     function closeSettingsPage() {
+        setModifiedServerData(serverData)
         setSettingsPage(false)
     }
 
@@ -226,8 +221,6 @@ export default function GlobalProvider({ children }) {
     useEffect(() => {
         if (!serverData) return
 
-        console.log('serverData: ' + JSON.stringify(serverData))
-
         serverData.map((item, index) => {
             item.serverId = item.id
             item.id = index + 1
@@ -237,14 +230,16 @@ export default function GlobalProvider({ children }) {
         setModifiedServerData(serverData)
     }, [serverData])
 
-    useEffect(() => {
-        if (lastDisabledTime === 0) return
+    // useEffect(() => {
+    //     if (lastDisabledTime === 0) return
 
-        console.log('lastDisabledTime: ' + lastDisabledTime)
-    }, [lastDisabledTime])
+    //     console.log('lastDisabledTime: ' + lastDisabledTime)
+    // }, [lastDisabledTime])
 
     useEffect(() => {
         console.log('modifiedServerData: ' + JSON.stringify(modifiedServerData))
+        console.log('serverData: ' + JSON.stringify(serverData))
+        
 
         if (modifiedServerData) {
             resumeCountdown()
@@ -264,6 +259,7 @@ export default function GlobalProvider({ children }) {
         setPaused,
         pauseTimeout,
         setPauseTimeout,
+        serverData,
         modifiedServerData,
         setModifiedServerData,
         selectedDuration,

@@ -28,20 +28,24 @@ export default function PiCardSettingsList() {
         <div className="flex-col m-auto min-h-[18rem] max-w-sm xl:max-w-full ">
             <CloseButton />
 
-            {modifiedServerData.map((item, index) => {
-                return (
-                    <PiCardSettings
-                        key={item.id}
-                        id={item.id}
-                        isFirst={index === 0}
-                        isLast={index === modifiedServerData.length - 1}
-                        serverName={item.serverName}
-                        serverAddress={item.serverAddress}
-                        serverAPIKey={item.serverAPIKey}
-                        handleInputChange={handleInputChange}
-                    />
-                )
-            })}
+            {modifiedServerData[0] ? (
+                modifiedServerData.map((item, index) => {
+                    return (
+                        <PiCardSettings
+                            key={item.id}
+                            id={item.id}
+                            isFirst={index === 0}
+                            isLast={index === modifiedServerData.length - 1}
+                            serverName={item.serverName}
+                            serverAddress={item.serverAddress}
+                            serverAPIKey={item.serverAPIKey}
+                            handleInputChange={handleInputChange}
+                        />
+                    )
+                })
+            ) : (
+                <div className='m-5 text-center text-primary w-100'>Click the Plus to add a Server</div>
+            )}
 
             <div className="w-100 flex align-middle">
                 <PlusButton className="m-auto" />

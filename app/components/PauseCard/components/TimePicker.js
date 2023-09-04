@@ -16,9 +16,9 @@ export default function TimePicker() {
     }
 
     return (
-        <div className="join mx-auto my-3">
+        <div className="join mx-auto my-6">
             <input
-                className="join-item btn btn-xs "
+                className="join-item btn btn-xs w-24"
                 id="1"
                 type="radio"
                 name="one"
@@ -27,7 +27,7 @@ export default function TimePicker() {
                 checked={selectedDuration === '1'}
             />
             <input
-                className="join-item btn btn-xs  "
+                className="join-item btn btn-xs w-24 "
                 id="5"
                 type="radio"
                 name="one"
@@ -36,7 +36,7 @@ export default function TimePicker() {
                 checked={selectedDuration === '5'}
             />
             <input
-                className="join-item btn btn-xs "
+                className="join-item btn btn-xs w-24"
                 id="10"
                 type="radio"
                 name="one"

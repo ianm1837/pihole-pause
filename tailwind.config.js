@@ -5,7 +5,7 @@ module.exports = {
         './components/**/*.{js,ts,jsx,tsx,mdx}',
         './app/**/*.{js,ts,jsx,tsx,mdx}',
     ],
-    plugins: [require('daisyui')],
+    plugins: [require('daisyui'), require('tailwindcss/nesting')],
     daisyui: {
         themes: [
             {
@@ -28,6 +28,11 @@ module.exports = {
                 lg: '4rem',
                 xl: '5rem',
                 '2xl': '6rem',
+            },
+        },
+        extend: {
+            fontSize: {
+                xxs: '.5rem',
             },
         },
     },

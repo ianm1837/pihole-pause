@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.btn {
+  @apply normal-case;
+}
+
+.btn:is(input[type="checkbox"]:checked),
+.btn:is(input[type="radio"]:checked) {
+  @apply border-neutral bg-neutral text-neutral-content;
+  @media (hover: hover) {
+    &:hover {
+      @apply border-neutral bg-neutral;
+    }
+  }
+  &:focus-visible {
+    @apply outline-neutral;
+  }
+}

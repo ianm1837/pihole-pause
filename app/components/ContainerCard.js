@@ -5,13 +5,14 @@ import SaveButton from './SettingsCard/components/SaveButton'
 import ListAndPause from './PauseCard/components/ListAndPause'
 import CountdownTimer from './PauseCard/components/CountdownTimer'
 import TimePicker from './PauseCard/components/TimePicker'
+import TimePickerDropdown from './PauseCard/components/TimePickerDropdown'
 
 export default function ContainerCard() {
     const { settingsPage, pauseTimeout } = useGlobalContext()
 
     return (
         <div className="flex flex-col items-center">
-            <div className="rounded-2xl sm:w-8/12 w-full bg-base-100 shadow-xl m-8 p-8">
+            <div className="rounded-2xl sm:w-8/12 w-full bg-base-100 shadow-2xl m-4 p-8">
                 {settingsPage ? (
                     <>
                         <PiCardSettingsList />
@@ -22,11 +23,12 @@ export default function ContainerCard() {
                 ) : (
                     <>
                         <ListAndPause />
-                        <div className="w-100 flex justify-center m-3">
+                        <div className="w-100 flex justify-center m-0">
                             {pauseTimeout ? (
                                 <CountdownTimer duration={pauseTimeout} />
                             ) : (
                                 <TimePicker />
+                                // <TimePickerDropdown />
                             )}
                         </div>
                     </>

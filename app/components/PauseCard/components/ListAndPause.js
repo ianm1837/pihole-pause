@@ -9,9 +9,9 @@ export default function ListAndPause() {
 
     return (
         <div>
-            <div className=" w-full sm:max-w-sm xl:max-w-full m-auto">
+            {/* <div className=" w-full sm:max-w-sm xl:max-w-full m-auto">
                 <SettingsGear />
-            </div>
+            </div> */}
             <div className="flex flex-col xl:flex-row xl:justify-center min-h-[18rem]">
                 <div className={` w-full sm:max-w-sm m-auto`}>
                     <PiCardList />

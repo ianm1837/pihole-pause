@@ -39,12 +39,13 @@ export default function PiCard({ name, ip, status }) {
             <div className="flex justify-between">
                 <div>
                     <h1>
-                        <span className="text-secondary">{name}</span>
+                        <span className="">{name}</span>
                     </h1>
                     <div>{ip}</div>
                 </div>
-                <div className="inline-block align-text-bottom">
-                    Status: {piHoleStatus}
+                <div className="inline-block align-text-bottom flex-col w-5/12">
+                    <div className="text-xxs">STATUS</div>
+                    <div className='text-xl'>{piHoleStatus}</div>
                 </div>
             </div>
         </div>

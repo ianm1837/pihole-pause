@@ -1,7 +1,6 @@
 import TrashIcon from '../../icons/TrashIcon'
 import UpArrow from '../../icons/UpArrow'
 import DownArrow from '../../icons/DownArrow'
-import { useState } from 'react'
 import { useGlobalContext } from '../../context/GlobalContext'
 
 export default function PiCardSettings({

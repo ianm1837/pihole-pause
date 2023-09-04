@@ -1,8 +1,7 @@
-import CloseIcon from "../../icons/CloseIcon"
-import { useGlobalContext } from "../../context/GlobalContext"
+import CloseIcon from '../../icons/CloseIcon'
+import { useGlobalContext } from '../../context/GlobalContext'
 
 export default function SettingsGear() {
-
     const { closeSettingsPage } = useGlobalContext()
 
     return (

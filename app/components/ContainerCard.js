@@ -2,9 +2,6 @@
 import { useGlobalContext } from './context/GlobalContext'
 import PiCardSettingsList from './SettingsCard/components/PiCardSettingsList'
 import SaveButton from './SettingsCard/components/SaveButton'
-import CloseButton from './SettingsCard/components/CloseButton'
-import React from 'react'
-import SettingsGear from './PauseCard/components/SettingsGear'
 import ListAndPause from './PauseCard/components/ListAndPause'
 import CountdownTimer from './PauseCard/components/CountdownTimer'
 import TimePicker from './PauseCard/components/TimePicker'
@@ -29,7 +26,7 @@ export default function ContainerCard() {
                             {pauseTimeout ? (
                                 <CountdownTimer duration={pauseTimeout} />
                             ) : (
-                                ''
+                                <TimePicker />
                             )}
                         </div>
                     </>

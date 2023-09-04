@@ -4,8 +4,7 @@ import RestartButton from './RestartButton'
 import SettingsGear from './SettingsGear'
 import { useGlobalContext } from '../../context/GlobalContext'
 
-export default function ListAndPause({ dataUpdated }) {
-
+export default function ListAndPause() {
     const { paused } = useGlobalContext()
 
     return (
@@ -18,7 +17,7 @@ export default function ListAndPause({ dataUpdated }) {
                     <PiCardList />
                 </div>
                 <div className={` w-full sm:max-w-sm xl:m-auto my-5 mx-auto`}>
-                    {!paused? <PauseButton /> : <RestartButton />}
+                    {!paused ? <PauseButton /> : <RestartButton />}
                 </div>
             </div>
         </div>

@@ -1,13 +1,11 @@
 import React from 'react'
 import PiCardSettings from './PiCardSettings'
 import PlusButton from './PlusButton'
-import { useState, useEffect } from 'react'
 import { useGlobalContext } from '../../context/GlobalContext'
 import CloseButton from './CloseButton'
 
 export default function PiCardSettingsList() {
-    const { modifiedServerData, setModifiedServerData } =
-        useGlobalContext()
+    const { modifiedServerData, setModifiedServerData } = useGlobalContext()
 
     async function handleInputChange(id, newName, newAddress, newAPIKey) {
         const newServerData = modifiedServerData.map((item) => {
@@ -44,7 +42,9 @@ export default function PiCardSettingsList() {
                     )
                 })
             ) : (
-                <div className='m-5 text-center text-primary w-100'>Click the Plus to add a Server</div>
+                <div className="m-5 text-center text-primary w-100">
+                    Click the Plus to add a Server
+                </div>
             )}
 
             <div className="w-100 flex align-middle">

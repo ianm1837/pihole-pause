@@ -4,23 +4,13 @@ import GlobalContext from './GlobalContext'
 export default function GlobalProvider({ children }) {
     const serverURL = '/api/storage'
 
-    // settings page state, is it open or not
     const [settingsPage, setSettingsPage] = useState(false)
-
-    // pause state, is it paused or not
     const [paused, setPaused] = useState(false)
-
-    // data from server
     const [serverData, setServerData] = useState(false)
-
-    // modified data on settings card
     const [modifiedServerData, setModifiedServerData] = useState(serverData)
-
     const [pauseTimeout, setPauseTimeout] = useState(0)
-
     const [lastDisabledTime, setLastDisabledTime] = useState(0)
-
-    const [selectedDuration, setSelectedDuration] = useState("5")
+    const [selectedDuration, setSelectedDuration] = useState('5')
 
     function resumeCountdown() {
         if (!modifiedServerData || modifiedServerData.length === 0) {
@@ -42,7 +32,6 @@ export default function GlobalProvider({ children }) {
     }
 
     async function pauseIt(minutes = 5) {
-
         const servers = modifiedServerData.map((server) => {
             const data = {
                 address: server.serverAddress,
@@ -78,6 +67,8 @@ export default function GlobalProvider({ children }) {
     async function restartIt() {
         const addresses = modifiedServerData.map((item) => item.serverAddress)
 
+        // TODO: handle failure
+
         addresses.forEach(async (address) => {
             await fetch(`http://${address}/admin/api.php?enable&auth`)
         })
@@ -101,7 +92,6 @@ export default function GlobalProvider({ children }) {
         setSettingsPage(false)
     }
 
-    // move a card up in the list
     function moveCardUp(id) {
         const itemToMove = modifiedServerData.find((item) => item.id === id)
 
@@ -122,7 +112,6 @@ export default function GlobalProvider({ children }) {
         setModifiedServerData(newArray)
     }
 
-    // move a card down in the list
     function moveCardDown(id) {
         const itemToMove = modifiedServerData.find((item) => item.id === id)
 
@@ -143,7 +132,6 @@ export default function GlobalProvider({ children }) {
         setModifiedServerData(newArray)
     }
 
-    // add a card to the list
     function addCard() {
         let newArray = []
 
@@ -173,14 +161,13 @@ export default function GlobalProvider({ children }) {
         setModifiedServerData(newArray)
     }
 
-    // remove a card from the list
     function removeCard(id) {
         const newArray = modifiedServerData.filter((item) => item.id !== id)
         setModifiedServerData(newArray)
     }
 
-    // get data from server
     async function getSettings() {
+        // TODO: handle failure
         const data = await fetch(serverURL, {
             method: 'GET',
         })
@@ -188,14 +175,17 @@ export default function GlobalProvider({ children }) {
         setServerData(JSONdata)
     }
 
-    // save data to server and refresh local data
     async function saveSettings(newData) {
+        // TODO: handle failure
+
         // delete all data from server
         await fetch(serverURL, {
             method: 'DELETE',
         })
 
         // add new data to server
+        // TODO: handle failure
+
         await fetch(serverURL, {
             method: 'POST',
             headers: {
@@ -204,7 +194,6 @@ export default function GlobalProvider({ children }) {
             body: JSON.stringify(newData),
         })
 
-        // close settings page and refresh data
         closeSettingsPage()
         getSettings()
     }
@@ -217,7 +206,7 @@ export default function GlobalProvider({ children }) {
         getData()
     }, [])
 
-    // create new array to modify
+    // create new array to modify once data is fetched
     useEffect(() => {
         if (!serverData) return
 
@@ -230,17 +219,8 @@ export default function GlobalProvider({ children }) {
         setModifiedServerData(serverData)
     }, [serverData])
 
-    // useEffect(() => {
-    //     if (lastDisabledTime === 0) return
-
-    //     console.log('lastDisabledTime: ' + lastDisabledTime)
-    // }, [lastDisabledTime])
-
+    // once data is loaded check if PiHoles are currently paused
     useEffect(() => {
-        console.log('modifiedServerData: ' + JSON.stringify(modifiedServerData))
-        console.log('serverData: ' + JSON.stringify(serverData))
-        
-
         if (modifiedServerData) {
             resumeCountdown()
         }

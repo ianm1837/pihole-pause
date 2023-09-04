@@ -37,6 +37,7 @@ next-env.d.ts
 
 # prisma
 db
+db_data
 
 seed_db.mjs
 read_db.mjs

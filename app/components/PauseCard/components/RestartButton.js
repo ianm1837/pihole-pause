@@ -15,10 +15,10 @@ export default function PauseButton({ paused, togglePaused, editMode }) {
         <div className="m-auto w-100 h-40 flex">
             <div
                 className="tooltip tooltip-info tooltip-bottom m-auto w-40"
-                data-tip={'Pause PiHole'}
+                data-tip={'Restart PiHole'}
             >
                 <button
-                    className={`m-auto btn-outline btn-secondary rounded-full border-8 w-40 h-40`}
+                    className={`m-auto btn-outline btn-primary rounded-full border-8 w-40 h-40`}
                     onClick={() => restartIt()}
                 >
                     <RestartIcon />

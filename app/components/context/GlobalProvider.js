@@ -20,34 +20,46 @@ export default function GlobalProvider({ children }) {
 
     const [lastDisabledTime, setLastDisabledTime] = useState(0)
 
+    const [selectedDuration, setSelectedDuration] = useState("5")
+
     function resumeCountdown() {
-        if(!modifiedServerData || modifiedServerData.length === 0){
+        if (!modifiedServerData || modifiedServerData.length === 0) {
             return
         }
 
         console.log(modifiedServerData)
-        
-        if(modifiedServerData && modifiedServerData[0].lastDisabledTime){
+
+        if (modifiedServerData && modifiedServerData[0].lastDisabledTime) {
             const serverTimes = parseInt(modifiedServerData[0].lastDisabledTime)
             const currentTime = Date.now()
 
-            if (currentTime > serverTimes){
+            if (currentTime > serverTimes) {
                 return
             }
 
             const remainingSeconds = (serverTimes - currentTime) / 1000
 
-            console.log("remaining seconds: " + remainingSeconds)
+            console.log('remaining seconds: ' + remainingSeconds)
 
             setPauseTimeout(remainingSeconds - 2)
         }
     }
 
     async function pauseIt(minutes = 5) {
-        const addresses = modifiedServerData.map((item) => item.serverAddress)
 
-        addresses.forEach(async (address) => {
-            await fetch(`http://${address}/admin/api.php?disable=300&auth`)
+        const servers = modifiedServerData.map((server) => {
+            const data = {
+                address: server.serverAddress,
+                apiKey: server.serverAPIKey,
+            }
+            return data
+        })
+
+        //TODO: need to handle error and create toast
+        servers.forEach(async (server) => {
+            await fetch(
+                `http://${server.address}/admin/api.php?disable=300&auth${server.apiKey}`
+            )
         })
 
         const duration = minutes * 60
@@ -79,7 +91,7 @@ export default function GlobalProvider({ children }) {
         setPauseTimeout(0)
 
         const removeDisabledTime = modifiedServerData.map((item) => {
-            item.lastDisabledTime = "0"
+            item.lastDisabledTime = '0'
             return item
         })
 
@@ -254,6 +266,8 @@ export default function GlobalProvider({ children }) {
         setPauseTimeout,
         modifiedServerData,
         setModifiedServerData,
+        selectedDuration,
+        setSelectedDuration,
         addCard,
         moveCardUp,
         moveCardDown,

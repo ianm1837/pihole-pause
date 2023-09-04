@@ -40,7 +40,7 @@ export default function PiCard({ name, ip, status }) {
             <div className="flex justify-between">
                 <div>
                     <h1>
-                        <span className="text-primary">{name}</span>
+                        <span className="text-secondary">{name}</span>
                     </h1>
                     <div>{ip}</div>
                 </div>

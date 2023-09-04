@@ -29,7 +29,8 @@ export default function ContainerCard() {
                             {pauseTimeout ? (
                                 <CountdownTimer duration={pauseTimeout} />
                             ) : (
-                                <TimePicker />
+                                // <TimePicker />
+                                ''
                             )}
                         </div>
                     </>

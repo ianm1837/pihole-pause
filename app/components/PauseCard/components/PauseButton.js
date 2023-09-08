@@ -7,7 +7,7 @@ export default function PauseButton() {
 
     return (
         <>
-            <div className="m-auto w-100 h-40 flex flex-col">
+            <div className="mx-auto w-100 h-40 flex flex-col mt-0 my-7 xl:mt-8 ">
                 <div
                     className={`${
                         modifiedServerData[0]

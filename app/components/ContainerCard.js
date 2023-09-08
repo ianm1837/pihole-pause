@@ -23,13 +23,7 @@ export default function ContainerCard() {
                 ) : (
                     <>
                         <ListAndPause />
-                        <div className="w-100 flex justify-center m-3">
-                            {pauseTimeout ? (
-                                <CountdownTimer duration={pauseTimeout} />
-                            ) : (
-                                <TimePicker />
-                            )}
-                        </div>
+
                     </>
                 )}
             </div>

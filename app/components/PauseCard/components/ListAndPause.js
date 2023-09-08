@@ -2,10 +2,12 @@ import PiCardList from './PiCardList'
 import PauseButton from './PauseButton'
 import RestartButton from './RestartButton'
 import SettingsGear from './SettingsGear'
+import CountdownTimer from './CountdownTimer'
+import TimePicker from './TimePicker'
 import { useGlobalContext } from '../../context/GlobalContext'
 
 export default function ListAndPause() {
-    const { paused } = useGlobalContext()
+    const { paused, pauseTimeout } = useGlobalContext()
 
     return (
         <div>
@@ -18,6 +20,13 @@ export default function ListAndPause() {
                 </div>
                 <div className={` w-full sm:max-w-sm xl:m-auto my-5 mx-auto`}>
                     {!paused ? <PauseButton /> : <RestartButton />}
+                    <div className="w-100 flex justify-center">
+                        {pauseTimeout ? (
+                            <CountdownTimer duration={pauseTimeout} />
+                        ) : (
+                            <TimePicker />
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

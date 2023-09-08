@@ -11,6 +11,28 @@ export default function GlobalProvider({ children }) {
     const [pauseTimeout, setPauseTimeout] = useState(0)
     const [lastDisabledTime, setLastDisabledTime] = useState(0)
     const [selectedDuration, setSelectedDuration] = useState('5')
+    const [piholeFetchError, setError] = useState()
+    const [communicationsError, setCommunicationsError] = useState(false)
+
+    async function triggerCommunicationsError() {
+        setCommunicationsError(true)
+        setTimeout(function () {
+            setCommunicationsError(false)
+        }, 10000)
+    }
+
+    // need to create toast with error
+    async function handlePiholeFetch(url) {
+        try {
+            await fetch(url)
+            return
+        } catch (error) {
+            if (error) {
+                setError(error)
+            }
+            return
+        }
+    }
 
     function resumeCountdown() {
         if (!modifiedServerData || modifiedServerData.length === 0) {
@@ -42,9 +64,14 @@ export default function GlobalProvider({ children }) {
 
         //TODO: need to handle error and create toast
         servers.forEach(async (server) => {
-            await fetch(
-                `http://${server.address}/admin/api.php?disable=300&auth${server.apiKey}`
-            )
+            try {
+                await fetch(
+                    `/api/pihole?ip=${server.address}&action=disable&duration=300&auth=${server.apiKey}`
+                )
+            } catch (error) {
+                console.log(error)
+                triggerCommunicationsError()
+            }
         })
 
         const duration = minutes * 60
@@ -65,12 +92,24 @@ export default function GlobalProvider({ children }) {
     }
 
     async function restartIt() {
-        const addresses = modifiedServerData.map((item) => item.serverAddress)
+        const servers = modifiedServerData.map((item) => {
+            return {
+                address: item.serverAddress,
+                apiKey: item.apiKey,
+            }
+        })
 
-        // TODO: handle failure
-
-        addresses.forEach(async (address) => {
-            await fetch(`http://${address}/admin/api.php?enable&auth`)
+        servers.forEach(async (server) => {
+            try {
+                await handlePiholeFetch(
+                    `/api/pihole?ip=${server.address}&action=enable&auth=${
+                        server.apiKey ? server.apiKey : ''
+                    }`
+                )
+            } catch (error) {
+                console.log(error)
+                triggerCommunicationsError()
+            }
         })
         setPaused(false)
         setPauseTimeout(0)
@@ -167,32 +206,38 @@ export default function GlobalProvider({ children }) {
     }
 
     async function getSettings() {
-        // TODO: handle failure
-        const data = await fetch(serverURL, {
-            method: 'GET',
-        })
-        const JSONdata = await data.json()
-        setServerData(JSONdata)
+        try {
+            const data = await fetch(serverURL, {
+                method: 'GET',
+            })
+            const JSONdata = await data.json()
+            setServerData(JSONdata)
+        } catch (error) {
+            console.log(error)
+            triggerCommunicationsError()
+        }
     }
 
     async function saveSettings(newData) {
-        // TODO: handle failure
-
-        // delete all data from server
-        await fetch(serverURL, {
-            method: 'DELETE',
-        })
-
-        // add new data to server
-        // TODO: handle failure
-
-        await fetch(serverURL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newData),
-        })
+        try{
+            // delete all data from server
+            await fetch(serverURL, {
+                method: 'DELETE',
+            })
+    
+            // add new data to server
+            await fetch(serverURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newData),
+            })
+        }
+        catch(error){
+            console.log(error)
+            triggerCommunicationsError()
+        }
 
         closeSettingsPage()
         getSettings()
@@ -248,6 +293,7 @@ export default function GlobalProvider({ children }) {
         moveCardUp,
         moveCardDown,
         removeCard,
+        communicationsError,
     }
 
     return (

@@ -2,14 +2,15 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 
 export default function PiCard({ name, ip, status }) {
-    const [piHoleStatus, setPiHoleStatus] = useState('')
+    const [piHoleStatus, setPiHoleStatus] = useState('Checking')
     const [timerToggle, setTimerToggle] = useState(false)
 
     useEffect(() => {
         async function fetchPiHoleStatus() {
             try {
                 const piHoleStatus = await fetch(
-                    `http://${ip}/admin/api.php?status`
+                      `/api/pihole?ip=${ip}&action=status`,
+                      {method: 'GET'}
                 )
                 const piHoleStatusJson = await piHoleStatus.json()
 

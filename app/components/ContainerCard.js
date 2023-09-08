@@ -7,7 +7,8 @@ import CountdownTimer from './PauseCard/components/CountdownTimer'
 import TimePicker from './PauseCard/components/TimePicker'
 
 export default function ContainerCard() {
-    const { settingsPage, pauseTimeout } = useGlobalContext()
+    const { settingsPage, pauseTimeout, communicationsError } =
+        useGlobalContext()
 
     return (
         <div className="flex flex-col items-center">
@@ -32,6 +33,15 @@ export default function ContainerCard() {
                     </>
                 )}
             </div>
+            {communicationsError ? (
+                <div className="toast">
+                    <div className="alert alert-error">
+                        <span>Communication Error!</span>
+                    </div>
+                </div>
+            ) : (
+                ''
+            )}
         </div>
     )
 }
